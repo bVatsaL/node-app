@@ -34,7 +34,7 @@ app.post('/sendNotification', (req, res) => {
   const payload = JSON.stringify({ title: 'Surprise!!', body: 'All coffees are free today!' });
 
   subscriptions.forEach((subscription) => {
-    webpush.sendNotification(subscription, payload)
+    webPush.sendNotification(subscription, payload)
       .catch((error) => console.error(error));
   });
 
