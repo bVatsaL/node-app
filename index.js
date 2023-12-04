@@ -15,17 +15,30 @@ const privateKeys = 'n_JbAB3oDLLUZrjZmGf9W0JafDF5-DM8sBhtGoeuo-k';
 
 webPush.setVapidDetails('mailto:test@test.com', publicKey, privateKeys);
 
+const subscriptions = [];
+
 // Middleware to parse JSON requests
 
 // Routes
 app.post('/subscribe', (req, res) => {
-  console.log("Here....");
   const subscribtion = req.body;
+  subscriptions.push(subscribtion);
   res.status(201).json({});
 
-  const payload = JSON.stringify({ title: 'Push Test' });
+  // const payload = JSON.stringify({ title: 'Push Test' });
 
-  webPush.sendNotification(subscribtion, payload).catch(err => console.error(err));
+  // webPush.sendNotification(subscribtion, payload).catch(err => console.error(err));
+});
+
+app.post('/sendNotification', (req, res) => {
+  const payload = JSON.stringify({ title: 'Surprise!!', body: 'All coffees are free today!' });
+
+  subscriptions.forEach((subscription) => {
+    webpush.sendNotification(subscription, payload)
+      .catch((error) => console.error(error));
+  });
+
+  res.status(200).json({ message: 'Notification sent' });
 });
 
 // Get all Coffees
