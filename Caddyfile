@@ -1,0 +1,6 @@
+localhost {
+  tls internal
+  reverse_proxy localhost:3000
+}
+
+admin 127.0.0.1:2020
